@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Appenders>
+        <Console name="console" target="SYSTEM_OUT">
+        <PatternLayout pattern="[%d{yyy-MM-dd HH:mm:ss:SSS}] [%X{X-B3-TraceId},%X{X-B3-SpanId},%X{X-B3-ParentSpanId},%X{X-Span-Export}] [%p] - %l - %m%n"/>
+        </Console>
+        
+        <RollingFile name="RollingFile"
+            fileName="./logs/inventoryAppl.log"
+            filePattern="./logs/$${date:yyyy-MM}/inventoryAppl-%d{-dd-MMMM-yyyy}-%i.log.gz">
+            
+            <PatternLayout pattern="[%d{yyy-MM-dd HH:mm:ss:SSS}] [%X{X-B3-TraceId},%X{X-B3-SpanId},%X{X-B3-ParentSpanId},%X{X-Span-Export}] [%p] - %l - %m%n"/>
+           
+            <Policies>
+                <!-- rollover on startup, daily and when the file reaches 
+                    10 MegaBytes -->
+                <OnStartupTriggeringPolicy />
+                <SizeBasedTriggeringPolicy
+                    size="10 MB" />
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+        </RollingFile>
+        
+       
+
+    </Appenders>
+
+ <Loggers>
+        <!-- LOG everything at INFO level -->
+        <Root level="info">
+            <AppenderRef ref="console" />
+            <AppenderRef ref="RollingFile" />
+            
+        </Root>
+         <!-- LOG "com.baeldung*" at TRACE level -->
+        <Logger name="hcl.practice.inventory" level="debug"></Logger>
+    </Loggers>
+</Configuration>
